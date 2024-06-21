@@ -17,6 +17,15 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/Books">BOOKS</router-link>
             </li>
+            <li class="nav-item" v-if="!isAuthenticated">
+              <router-link class="nav-link" to="/login">LOGIN</router-link>
+            </li>
+            <li class="nav-item" v-if="!isAuthenticated">
+              <router-link class="nav-link" to="/register">REGISTER</router-link>
+            </li>
+            <li class="nav-item" v-if="isAuthenticated">
+              <button class="nav-link btn btn-link" @click="logout">LOGOUT</button>
+            </li>
           </ul>
         </div>
       </div>
@@ -32,7 +41,21 @@
   </div>
 </template>
 
-<script setup></script>
+<script>
+export default {
+  computed: {
+    isAuthenticated() {
+      return localStorage.getItem('user') !== null;
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('user');
+      this.$router.push('/login');
+    }
+  }
+};
+</script>
 
 <style scoped>
 .navbar-brand {
